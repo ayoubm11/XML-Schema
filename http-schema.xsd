@@ -1,0 +1,76 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.ietf.org/codes/"
+           targetNamespace="http://www.ietf.org/codes/"
+           xmlns:hd="http://www.ietf.org/headers/"
+           xmlns:xml="http://www.w3.org/XML/1998/namespace"
+           elementFormDefault="qualified">
+
+    <xs:import namespace="http://www.ietf.org/headers/" schemaLocation="hd.xsd"/>
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+
+    <xs:element name="http-request-headers" substitutionGroup="hd:request-headers"/>
+    <xs:element name="http-response-headers" substitutionGroup="hd:response-headers"/>
+
+    <xs:element name="http">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="http-codes"/>
+                <xs:element ref="http-headers"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="http-codes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="catégories"/>
+                <xs:element ref="list-codes"/>
+            </xs:sequence>
+            <xs:attribute ref="xml:lang"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="catégories">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="catégorie" maxOccurs="5">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute name="numéro" type="xs:integer" use="required"/>
+                                <xs:attribute name="type" type="xs:string" use="required"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="list-codes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="http-code" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="message" type="xs:string" minOccurs="0"/>
+                            <xs:element name="signification" type="xs:string"/>
+                        </xs:sequence>
+                        <xs:attribute name="code" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="http-headers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="hd:request-headers"/>
+                <xs:element ref="hd:response-headers"/>
+            </xs:sequence>
+            <xs:attribute ref="xml:lang"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

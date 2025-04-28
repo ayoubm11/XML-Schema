@@ -1,0 +1,41 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.ietf.org/headers/"
+    xmlns:hd="http://www.ietf.org/headers/"
+    elementFormDefault="qualified">
+
+    <xs:simpleType name="statusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Permanent" />
+            <xs:enumeration value="Provisional" />
+            <xs:enumeration value="Obsolete" />
+            <xs:enumeration value="Experimental" />
+            <xs:enumeration value="Permanent: standard" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="multiValueType">
+        <xs:list itemType="xs:string" />
+    </xs:simpleType>
+
+    <xs:complexType name="headerType">
+        <xs:sequence>
+            <xs:element name="description" type="xs:string" />
+            <xs:element name="example" type="xs:string" minOccurs="0" />
+            <xs:element name="RFC" type="hd:multiValueType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="name" type="hd:multiValueType" use="required" />
+        <xs:attribute name="status" type="hd:statusType" use="required" />
+    </xs:complexType>
+
+    <xs:element name="request-headers" type="hd:headersContainer" />
+    <xs:element name="response-headers" type="hd:headersContainer" />
+
+    <xs:complexType name="headersContainer">
+        <xs:sequence>
+            <xs:element ref="hd:header" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="header" type="hd:headerType" />
+
+</xs:schema>
